@@ -5,11 +5,15 @@ using namespace std;
 int n, k;
 double ropes[10'000];
 
-bool f(int x)
+bool f(double x)
 {
-    double result = 0;
+    int result = 0;
+
+    if (x == 0)
+        return false;
+
     for (int i = 0; i < n; i++)
-        result += (ropes[i] / x);
+        result += floor(ropes[i] / x);
 
     return (result >= k);
 }
@@ -22,8 +26,8 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < n; i++)
         cin >> ropes[i];
 
-    double r = 10'000, l = 0;
-    while ((r - l) > 10e-6)
+    double r = 1e8, l = 0;
+    for (int i = 0; i < 100; i++)
     {
         double mid = (l + r) / 2;
         if (f(mid))
@@ -36,7 +40,7 @@ int main(int argc, char const *argv[])
         }
     }
 
-    cout << l << "\n";
+    cout << setprecision(20) << l << "\n";
 
     return 0;
 }
