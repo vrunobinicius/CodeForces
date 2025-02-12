@@ -5,7 +5,7 @@ using namespace std;
 
 long long w, h, n;
 
-bool f(long long x) { return ((x / w) * (x / h)) >= n; }
+bool good(long long x) { return ((x / w) * (x / h)) >= n; }
 
 int main(int argc, char const *argv[])
 {
@@ -13,13 +13,13 @@ int main(int argc, char const *argv[])
 
     long long l = 0, r = 1;
 
-    while (!f(r))
+    while (!good(r))
         r *= 2;
 
     while (l + 1 < r)
     {
         long long mid = (l + r) / 2;
-        if (f(mid))
+        if (good(mid))
         {
             r = mid;
         }

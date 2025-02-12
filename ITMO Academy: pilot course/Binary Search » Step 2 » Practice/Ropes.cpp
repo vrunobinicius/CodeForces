@@ -6,7 +6,7 @@ using namespace std;
 int n, k;
 double ropes[10'000];
 
-bool f(double x)
+bool good(double x)
 {
     int result = 0;
 
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < 100; i++)
     {
         double mid = (l + r) / 2;
-        if (f(mid))
+        if (good(mid))
         {
             l = mid;
         }

@@ -5,7 +5,7 @@ using namespace std;
 
 int n, x, y;
 
-bool f(int m)
+bool good(int m)
 {
     if (m < min(x, y))
         return false;
@@ -20,13 +20,13 @@ int main(int argc, char const *argv[])
     cin >> n >> x >> y;
 
     int l = 0, r = 1;
-    while (!f(r))
+    while (!good(r))
         r *= 2;
 
     while ((l + 1) < r)
     {
         int mid = (r + l) / 2;
-        if (f(mid))
+        if (good(mid))
             r = mid;
         else
             l = mid;
