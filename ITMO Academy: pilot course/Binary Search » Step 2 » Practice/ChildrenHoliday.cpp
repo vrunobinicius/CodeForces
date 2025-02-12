@@ -5,27 +5,62 @@
 using namespace std;
 
 int m, n;
+vector<int> balloons;
+//           t         z    y
+vector<pair<int, pair<int, int>>> assistant;
 
-bool good(int t) {
-    
+bool good(int clock)
+{
+    int acc = 0;
+    for (int i = 0; i < n; i++)
+    {
+        int t = assistant[i].first;
+        int z = assistant[i].second.first;
+        int y = assistant[i].second.second;
+
+        int segment = (t * z) + y;
+        int remaining = (clock % segment);
+
+        int quantity_segment = (clock / segment) * z;
+        if (remaining >= t * z)
+        {
+            quantity_segment += z;
+        }
+        else
+        {
+            quantity_segment += (remaining / t);
+        }
+
+        acc += quantity_segment;
+    }
+
+    return (acc >= m);
 }
 
 int main(int argc, char const *argv[])
 {
     cin >> m >> n;
 
-    vector<pair<int, pair<int, int>>> tzy(n);
+    balloons.resize(n);
+    assistant.resize(n);
 
     for (int i = 0; i < n; i++)
     {
         int t, z, y;
         cin >> t >> z >> y;
-        tzy[i].first = t;
-        tzy[i].second.first = z;
-        tzy[i].second.second = y;
+        assistant[i].first = t;
+        assistant[i].second.first = z;
+        assistant[i].second.second = y;
     }
 
-    int l = 0, r = 1000;
+    int l = 0, r = 1;
+
+    while (!good(r))
+    {
+        l = r;
+        r << 1;
+    }
+
     while ((l + 1) < r)
     {
         int mid = (r + l) / 2;
