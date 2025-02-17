@@ -6,7 +6,6 @@ using namespace std;
 
 int m, n;
 vector<int> balloons;
-//           t         z    y
 vector<pair<int, pair<int, int>>> assistant;
 
 bool good(int clock)
@@ -18,20 +17,21 @@ bool good(int clock)
         int z = assistant[i].second.first;
         int y = assistant[i].second.second;
 
-        int segment = (t * z) + y;
-        int remaining = (clock % segment);
-
-        int quantity_segment = (clock / segment) * z;
-        if (remaining >= t * z)
+        if (clock < t)
         {
-            quantity_segment += z;
-        }
-        else
-        {
-            quantity_segment += (remaining / t);
+            balloons[i] = 0;
+            continue;
         }
 
-        acc += quantity_segment;
+        int size_segment = (t * z) + y;
+        int quantity_integers = floor(clock / size_segment);
+        int quantity_balloons = quantity_integers * z;
+        int remaining = clock % size_segment;
+        int quantity_remaining = min(remaining, z);
+
+        acc += quantity_balloons + quantity_remaining;
+
+        balloons[i] = quantity_balloons + quantity_remaining;
     }
 
     return (acc >= m);
@@ -41,8 +41,8 @@ int main(int argc, char const *argv[])
 {
     cin >> m >> n;
 
-    balloons.resize(n);
-    assistant.resize(n);
+    balloons.resize(n + 1);
+    assistant.resize(n + 1);
 
     for (int i = 0; i < n; i++)
     {
@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
     while (!good(r))
     {
         l = r;
-        r << 1;
+        r = r << 1;
     }
 
     while ((l + 1) < r)
@@ -75,6 +75,10 @@ int main(int argc, char const *argv[])
     }
 
     cout << r << "\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << balloons[i] << " ";
+    }
 
     return 0;
 }
